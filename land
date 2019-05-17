@@ -1,0 +1,116 @@
+import java.util.*
+
+class Song (val titel:String, val interpret:String, val spieldauer:Double, var bewertung:Int) {
+
+    fun abspielen(): Int {
+        val runden = spieldauer / 60
+        while (runden >= 0) {
+            runden - 1
+            println("Spiele: $titel von $interpret (Bewertung: $bewertung Punkte")
+        }
+        return 0
+    }
+
+    fun bewertungaendern(eingabe:Int):Boolean{
+
+        if(eingabe > 0 && eingabe <= 100){
+            bewertung=eingabe
+        }
+        else{
+            return false
+        }
+        return true
+    }
+
+    fun suchbegriffpruefen(search:String) :Boolean{
+        val x = titel+interpret
+        return x.contains("search")
+    }
+}
+
+
+class Playlist(){
+    val songliste= arrayListOf<Song>()
+    fun gesamtspieldauer():Double{
+        var gesamt=0.0
+        for(p in songliste){
+            gesamt+= p.spieldauer
+        }
+        return gesamt
+    }
+
+    fun playlistspielen():Int{
+        for (p in songliste) p.abspielen()
+        return 0
+    }
+}
+
+class Musikverwaltung(){
+    val songliste= arrayListOf<Song>()
+
+    fun songhinzufuegen(song:Song):Int{
+        songliste.add(song)
+        return 0
+    }
+
+    fun songsuche():Int{
+        println("Wat suchen sie denn?")
+        val input=readLine()
+        val counter=0
+        while (input != "stop"){
+            var search = songliste[counter].interpret.contains("input")
+            search = songliste[counter].titel.contains("input")
+            if(search==true){
+                songliste[counter].abspielen()
+            }
+        }
+        counter +1
+        return 0
+    }
+
+    fun bestersong(): Song{
+        var max=songliste[0]
+        for (p in songliste){
+            if (p.bewertung >= max.bewertung){
+                max=p
+            }
+        }
+        return max
+    }
+
+    fun rndplaylist():Playlist{
+        val playlist= Playlist()
+        val rndgenerator=Random()
+
+        val counter=0
+        for (p in songliste){
+            val rndnumber= rndgenerator.nextInt(8)
+            playlist.songliste+=songliste[rndnumber]
+            counter+1
+        }
+        return Playlist()
+    }
+}
+
+fun main (args:Array <String>){
+    val musikverwaltung=Musikverwaltung()
+    val playlist=Playlist()
+    musikverwaltung.songliste.add(Song("Anotherone Bites the dust","Queen",150.0,60))
+    musikverwaltung.songliste.add(Song("Anotherone Bites the dust","Queen",150.0,60))
+    musikverwaltung.songliste.add(Song("Anotherone Bites the dust","Queen",150.0,60))
+    musikverwaltung.songliste.add(Song("Anotherone Bites the dust","Queen",150.0,60))
+    musikverwaltung.songliste.add(Song("Anotherone Bites the dust","Queen",150.0,60))
+    musikverwaltung.songliste.add(Song("Anotherone Bites the dust","Queen",150.0,60))
+    musikverwaltung.songliste.add(Song("Anotherone Bites the dust","Queen",150.0,60))
+    musikverwaltung.songliste.add(Song("Anotherone Bites the dust","Queen",150.0,60))
+
+    musikverwaltung.rndplaylist()
+    playlist.playlistspielen()
+    musikverwaltung.bestersong()
+
+    println("${playlist.songliste[0]}")
+
+}
+
+
+
